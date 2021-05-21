@@ -1,0 +1,71 @@
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.posts {
+  margin-top: 5rem;
+  font-style: normal;
+  text-align: justify;
+
+  .title {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.5px;
+    line-height: 2.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--body);
+    line-height: 1.375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  > div {
+    display: flex;
+    justify-content: flex-start;
+    color: var(--info);
+    font-size: 0.875rem;
+
+    time {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      text-transform:capitalize;
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      margin-left: 1.5rem;
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 5rem;
+    }
+  }
+}
+
+.loading {
+  color: var(--highlight);
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+}

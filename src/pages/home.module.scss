@@ -1,0 +1,14 @@
+.container {
+  header {
+    margin-top: 5rem;
+  }
+
+  button {
+    margin-bottom: 5rem;
+    background: transparent;
+    color: var(--highlight);
+    border: 0;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+}
