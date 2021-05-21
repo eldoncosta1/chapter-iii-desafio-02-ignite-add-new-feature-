@@ -51,13 +51,13 @@ interface PostProps {
   };
 }
 
-export default function Post({ post, pagination }: PostProps) {
+export default function Post({ post, preview, pagination }: PostProps) {
   const { isFallback } = useRouter();
 
   const commentsSection = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const hasScript = commentsSection?.current.querySelector('.utterances');
+    const hasScript = commentsSection?.current?.querySelector('.utterances');
 
     if (hasScript) {
       hasScript.remove();
@@ -179,11 +179,16 @@ export default function Post({ post, pagination }: PostProps) {
             )}
           </section>
         )}
+        <footer ref={commentsSection} />
+        {preview && (
+          <aside className={styles.preview}>
+            <Link href="/api/exit-preview">
+              <a>Sair do modo Preview</a>
+            </Link>
+          </aside>
+        )}
       </main>
-
-      <footer ref={commentsSection} />
-    </>
-  )
+    </>)
   );
 }
 
@@ -209,12 +214,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview = false,
+  previewData = {},
+}) => {
   const { slug } = params;
+
+  const { ref } = previewData;
 
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('posts', String(slug), {});
+  const response =
+    preview && ref
+      ? await prismic.getSingle('posts', { ref })
+      : await prismic.getByUID('posts', String(slug), {});
+
+  if (!response) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 
   const post = {
     data: {
@@ -267,6 +290,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       post,
+      preview,
       pagination: nextPage || prevPage ? pagination : null,
     },
     revalidate: 60 * 30, // 30 minutes
