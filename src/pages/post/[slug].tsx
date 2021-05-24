@@ -19,6 +19,7 @@ import styles from './post.module.scss';
 
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null;
   uid: string;
   data: {
     title: string;
@@ -140,6 +141,16 @@ export default function Post({ post, preview, pagination }: PostProps) {
               <FiClock size={20} /> {getTimeToWorld()}
             </span>
           </div>
+          {post?.last_publication_date && (
+            <div>
+              * editado em
+              {format(
+                new Date(post?.last_publication_date),
+                " dd MMM yyyy', às' HH:mm",
+                { locale: ptBR }
+              )}
+            </div>
+          )}
         </div>
         {post?.data.content.map(paragraph => (
           <div key={`${paragraph.heading}-${paragraph.body}`}>
@@ -255,6 +266,10 @@ export const getStaticProps: GetStaticProps = async ({
       }),
     },
     first_publication_date: response.first_publication_date,
+    last_publication_date:
+      response.first_publication_date !== response.last_publication_date
+        ? response.last_publication_date
+        : null,
     uid: response.uid,
   };
 

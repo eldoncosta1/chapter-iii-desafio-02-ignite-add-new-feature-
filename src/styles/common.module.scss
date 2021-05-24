@@ -51,13 +51,20 @@
       svg {
         margin-right: 0.5rem;
       }
+
     }
 
     &:last-child {
+      margin-top: 1rem;
       margin-bottom: 5rem;
+      font-style: italic;
+      font-size: 0.875rem;
+      line-height: 1.0625rem;
+      color: var(--info);
     }
   }
 }
+
 
 .loading {
   color: var(--highlight);
